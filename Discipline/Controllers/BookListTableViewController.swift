@@ -79,21 +79,21 @@ class BookListTableViewController: UITableViewController, ReloadableViewControll
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let boughtAction = UIContextualAction(style: .normal, title: "Delete", handler: { [unowned self ](ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let boughtAction = UIContextualAction(style: .normal, title: "Delete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             tableView.isUserInteractionEnabled = false
-            let bookID = rootTabBarController.currentClassBooksKeys![indexPath.row]
+            let bookID = self.rootTabBarController.currentClassBooksKeys![indexPath.row]
             FirebaseUtil.removeBook(uniqueID: bookID) { (error) in
                 if let error = error {
                     print (error)
                     DispatchQueue.main.async {
-                        present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
+                        self.present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
                     }
                 }
                 else {
-                    rootTabBarController.currentClassBooks?.removeValue(forKey: bookID)
-                    let index = rootTabBarController.currentClassBooksKeys?.firstIndex(of: bookID)
-                    rootTabBarController.currentClassBooksKeys?.remove(at: index!)
-                    rootTabBarController.currentClassBooksKeys?.sort()
+                    self.rootTabBarController.currentClassBooks?.removeValue(forKey: bookID)
+                    let index = self.rootTabBarController.currentClassBooksKeys?.firstIndex(of: bookID)
+                    self.rootTabBarController.currentClassBooksKeys?.remove(at: index!)
+                    self.rootTabBarController.currentClassBooksKeys?.sort()
                     tableView.reloadData()
                 }
                 tableView.isUserInteractionEnabled = true

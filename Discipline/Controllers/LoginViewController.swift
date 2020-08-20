@@ -78,58 +78,58 @@ class LoginViewController: UIViewController {
     }
     
     func createUser(email: String, password: String) {
-        Auth.auth().createUser(withEmail: email, password: password) {[unowned self] authResult, error in
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error as NSError? {
                 switch AuthErrorCode(rawValue: error.code) {
                     case .operationNotAllowed:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Error", message: "Error occured at server side"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Error", message: "Error occured at server side"), animated: true)
                         }
                     case .emailAlreadyInUse:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Email in use", message: "The Email has already been registered"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Email in use", message: "The Email has already been registered"), animated: true)
                         }
                     case .invalidEmail:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Invalid Email", message: "Email format is not valid!"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Invalid Email", message: "Email format is not valid!"), animated: true)
                         }
                     case .weakPassword:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Password is too short", message: "Password should consist of at least 6 characters!"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Password is too short", message: "Password should consist of at least 6 characters!"), animated: true)
                         }
                     default:
                         print("Error: \(error.localizedDescription)")
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Error", message: "Unknown error"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Error", message: "Unknown error"), animated: true)
                         }
                 }
             }
             else {
                 print("User signs up successfully")
-                defaults.setValue(email, forKey: emailKey)
-                defaults.setValue(password, forKey: passwordKey)
+                self.defaults.setValue(email, forKey: self.emailKey)
+                self.defaults.setValue(password, forKey: self.passwordKey)
                 let newUserInfo = Auth.auth().currentUser
                 do {
                     try FirebaseUtil.newUser(uniqueID: newUserInfo!.uid, name: newUserInfo!.email!) { student, err in
                         DispatchQueue.main.async {
                             if let _ = err {
-                                loadingIndicatorView.stopAnimating()
-                                present(Utilities.alertMessage(title: "Error", message: "Failed to create user on Firestore"), animated: true)
-                                view.isUserInteractionEnabled = true
+                                self.loadingIndicatorView.stopAnimating()
+                                self.present(Utilities.alertMessage(title: "Error", message: "Failed to create user on Firestore"), animated: true)
+                                self.view.isUserInteractionEnabled = true
                             }
                             else {
-                                loadingIndicatorView.stopAnimating()
-                                view.isUserInteractionEnabled = true
-                                loggedIn()
+                                self.loadingIndicatorView.stopAnimating()
+                                self.view.isUserInteractionEnabled = true
+                                self.loggedIn()
                             }
                         }
                     }
                 }
                 catch {
                     DispatchQueue.main.async {
-                        loadingIndicatorView.stopAnimating()
-                        present(Utilities.alertMessage(title: "Error", message: "Failed to create user on Firestore"), animated: true)
-                        view.isUserInteractionEnabled = true
+                        self.loadingIndicatorView.stopAnimating()
+                        self.present(Utilities.alertMessage(title: "Error", message: "Failed to create user on Firestore"), animated: true)
+                        self.view.isUserInteractionEnabled = true
                     }
                 }
             }
@@ -137,41 +137,41 @@ class LoginViewController: UIViewController {
     }
     
     func logInUser(email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) {[unowned self] authResult, error in
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error as NSError? {
                 switch AuthErrorCode(rawValue: error.code) {
                     case .operationNotAllowed:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Error", message: "Error occured at server side"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Error", message: "Error occured at server side"), animated: true)
                         }
                     case .userDisabled:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "User Error", message: "User disabled"), animated: true)
+                            self.present(Utilities.alertMessage(title: "User Error", message: "User disabled"), animated: true)
                         }
                     case .wrongPassword:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Wrong Password", message: "Please provide the correct password"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Wrong Password", message: "Please provide the correct password"), animated: true)
                         }
                     case .invalidEmail:
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Invalid Email", message: "Email is not registered"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Invalid Email", message: "Email is not registered"), animated: true)
                         }
                     default:
                         print("Error: \(error.localizedDescription)")
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Error", message: "Unknown error"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Error", message: "Unknown error"), animated: true)
                         }
                 }
             }
             else {
                 print("User signs in successfully")
-                defaults.setValue(email, forKey: emailKey)
-                defaults.setValue(password, forKey: passwordKey)
-                loggedIn()
+                self.defaults.setValue(email, forKey: self.emailKey)
+                self.defaults.setValue(password, forKey: self.passwordKey)
+                self.loggedIn()
             }
             DispatchQueue.main.async {
-                loadingIndicatorView.stopAnimating()
-                view.isUserInteractionEnabled = true
+                self.loadingIndicatorView.stopAnimating()
+                self.view.isUserInteractionEnabled = true
             }
         }
     }

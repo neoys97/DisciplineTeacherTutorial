@@ -83,10 +83,10 @@ class DashboardViewController: UIViewController, ReloadableViewController {
             if let error = error {
                 print (error)
                 DispatchQueue.main.async {
-                    present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
+                    self.present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
                 }
             }
-            rootTabBarController.refresh()
+            self.rootTabBarController.refresh()
         }
     }
     
@@ -138,22 +138,22 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
                 if let err = err {
                     print (err)
                     DispatchQueue.main.async {
-                        present(Utilities.alertMessage(title: "Error", message: "Failed to upload image to Firestore"), animated: true)
+                        self.present(Utilities.alertMessage(title: "Error", message: "Failed to upload image to Firestore"), animated: true)
                     }
                 }
                 else if let url = url {
                     let updateQuery = ["profilePicURL": url]
-                    FirebaseUtil.updateUser(uniqueID: Auth.auth().currentUser!.uid, query: updateQuery as [String : Any]) {[unowned self] (error) in
+                    FirebaseUtil.updateUser(uniqueID: Auth.auth().currentUser!.uid, query: updateQuery as [String : Any]) { (error) in
                         if let error = error {
                             print (error)
                             DispatchQueue.main.async {
-                                present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
+                                self.present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
                             }
                         }
                         else {
-                            rootTabBarController.teacher!.profilePicURL = url
-                            profilePicURL = url
-                            profilePicImageView.image = image
+                            self.rootTabBarController.teacher!.profilePicURL = url
+                            self.profilePicURL = url
+                            self.profilePicImageView.image = image
                         }
                     }
                 }

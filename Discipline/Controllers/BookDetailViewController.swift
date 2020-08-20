@@ -91,13 +91,13 @@ class BookDetailViewController: UIViewController {
                     if let error = error {
                         print (error)
                         DispatchQueue.main.async {
-                            present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
+                            self.present(Utilities.alertMessage(title: "Error", message: "Failed to update user on Firestore"), animated: true)
                         }
                     }
                     else {
-                        rootTabBarController.refresh()
+                        self.rootTabBarController.refresh()
                     }
-                    view.isUserInteractionEnabled = true
+                    self.view.isUserInteractionEnabled = true
                     self.dismiss(animated: true, completion: nil)
                 }
             }
@@ -133,14 +133,14 @@ extension BookDetailViewController: UIImagePickerControllerDelegate, UINavigatio
                 if let err = err {
                     print (err)
                     DispatchQueue.main.async {
-                        present(Utilities.alertMessage(title: "Error", message: "Failed to upload image to Firestore"), animated: true)
+                        self.present(Utilities.alertMessage(title: "Error", message: "Failed to upload image to Firestore"), animated: true)
                     }
                 }
                 else if let url = url {
-                    currentBookImageURL = url
-                    bookImageView.image = image
+                    self.currentBookImageURL = url
+                    self.bookImageView.image = image
                 }
-                view.isUserInteractionEnabled = true
+                self.view.isUserInteractionEnabled = true
             }
         }
         dismiss(animated: true, completion: nil)

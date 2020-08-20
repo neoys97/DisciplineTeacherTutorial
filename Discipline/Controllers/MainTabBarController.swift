@@ -55,7 +55,7 @@ class MainTabBarController: UITabBarController {
             }
             else {
                 if let error = error {
-                    loadDataErrorAlert(error: error)
+                    self.loadDataErrorAlert(error: error)
                 }
                 else {
                     DispatchQueue.main.async {
@@ -63,8 +63,8 @@ class MainTabBarController: UITabBarController {
                     }
                 }
             }
-            usersLoading = false
-            reloadCurrentViewController()
+            self.usersLoading = false
+            self.reloadCurrentViewController()
         }
     }
     
@@ -74,14 +74,14 @@ class MainTabBarController: UITabBarController {
         loadingIndicatorView.startAnimating()
         FirebaseUtil.getAllClassGroups { [unowned self] (retrievedData, error) in
             if let error = error {
-                loadDataErrorAlert(error: error)
+                self.loadDataErrorAlert(error: error)
             }
             else if let classes = retrievedData{
                 self.classGroup = classes
                 self.classGroupKeys = [String](classes.keys).sorted()
             }
-            classLoading = false
-            reloadCurrentViewController()
+            self.classLoading = false
+            self.reloadCurrentViewController()
         }
     }
     
@@ -91,14 +91,14 @@ class MainTabBarController: UITabBarController {
         loadingIndicatorView.startAnimating()
         FirebaseUtil.getAllBooks() {[unowned self] (books, error) in
             if let error = error {
-                loadDataErrorAlert(error: error)
+                self.loadDataErrorAlert(error: error)
             }
             else if let books = books {
                 self.currentClassBooks = books
                 self.currentClassBooksKeys = [String](books.keys).sorted()
             }
-            classLoading = false
-            reloadCurrentViewController()
+            self.classLoading = false
+            self.reloadCurrentViewController()
         }
     }
     
@@ -108,14 +108,14 @@ class MainTabBarController: UITabBarController {
         loadingIndicatorView.startAnimating()
         FirebaseUtil.getAllStudents() {[unowned self] (students, error) in
             if let error = error {
-                loadDataErrorAlert(error: error)
+                self.loadDataErrorAlert(error: error)
             }
             else if let students = students {
                 self.students = students
                 self.studentsKeys = [String](students.keys).sorted()
             }
-            studentsLoading = false
-            reloadCurrentViewController()
+            self.studentsLoading = false
+            self.reloadCurrentViewController()
         }
     }
     

@@ -40,7 +40,7 @@ class StudentsTableViewController: UITableViewController, ReloadableViewControll
             let studentID = rootTabBarController.studentsKeys![tableView.indexPathForSelectedRow!.row]
             dest.student = rootTabBarController.students![studentID]!
             dest.classGroup = rootTabBarController.classGroup
-            dest.books = rootTabBarController.currentClassBooks
+            dest.books = rootTabBarController.currentClassBooks 
         }
     }
     
